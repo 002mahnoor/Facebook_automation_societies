@@ -1,0 +1,145 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session Visits Log</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 0rem 2rem 2rem 2rem;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        /* Navbar Style */
+        .navbar {
+            position: fixed; /* Keeps it fixed on scroll */
+            top: 0; /* Stick to the top */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensures it stays above other content */
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 0;
+            width: 100%;
+            gap: 10px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional nice touch */
+        }
+        .container {
+            margin-top: 100px; /* Add margin to push below the fixed navbar */
+        }
+        .navbar button {
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .navbar button:hover {
+            background-color: #007bb5;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        table {
+            table-layout: fixed;
+            word-wrap: break-word;
+            text-align: center;
+        }
+        .table th{
+            background-color: #007bb5;
+            color: white;
+            font-weight: bold;
+        }
+
+
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+
+            .table {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/facebook/'">Home</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/fb_user_searched/'">Facebook Users</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/messages/'">Message</button>
+        <button onclick="window.location.href = 'http://127.0.0.1:8000/fb/conversation/'">Conversations</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/summary/'">Summary</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/download_report/'">Download Report</button>
+    </div>
+
+    <div class="container table-container">
+        <div class="text-end mb-3">
+            <a href="{% url 'download_file' 'log_session_visits.xlsx' %}" class="btn btn-success">
+                Download Profiles Visited
+            </a>
+        </div>
+        {% if data %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Profile Link</th>
+                            <th>Recipient</th>
+                            <th>Find Time</th>
+                            <th>Delivered Status</th>
+                            <th>Delivered Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in data %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{{ entry.Links }}" target="_blank">{{ entry.Links }}</a></td>
+                            <td>{{ entry.Recepient }}</td>
+                            <td>{{ entry.Find_Time|default:"" }}</td>
+                            <td>{{ entry.Delivered_Status }}</td>
+                            <td>{{ entry.Delivered_Time|default:"" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                😕 No data found in the log file.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unread Profiles and Messages</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            position: fixed; /* Keeps it fixed on scroll */
+            top: 0; /* Stick to the top */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensures it stays above other content */
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 0;
+            width: 100%;
+            gap: 10px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional nice touch */
+        }
+
+        .navbar button {
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+
+        .navbar button:hover {
+            background-color: #007bb5;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .container {
+            margin-top: 100px; /* Add margin to push below the fixed navbar */
+        }
+        .table-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .table-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 95vw;
+            width: fit-content;
+        }
+
+        .table thead {
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .table th{
+            background-color: #007bb5;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .table th, .table td {
+            padding: 10px 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .table {
+                width: 100%;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/facebook/'">Home</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/fb_user_searched/'">Facebook Users</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/messages/'">Message</button>
+    <button onclick="window.location.href = 'http://127.0.0.1:8000/fb/conversation/'">Conversations</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/summary/'">Summary</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/download_report/'">Download Report</button>
+</div>
+
+
+<div>
+    <div class="container">
+        <div class="text-end mb-3">
+            <a href="{% url 'download_file' 'Unread_profiles.xlsx' %}" class="btn btn-success">
+                Download coversation data
+            </a>
+        </div>
+        {% if data %}
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="text-center">
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Unread Profile</th>
+                    <th>Unread Message</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td> 
+                    <td>{{ row.Unread_Profile_Names }}</td>
+                    <td>{{ row.Unread_Profile_Messages }}</td>
+                    <td>
+                        {% if row.Urls %}
+                            <a href="{{ row.Urls }}" target="_blank">{{ row.Urls }}</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning text-center">No unread data found in the log.</div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

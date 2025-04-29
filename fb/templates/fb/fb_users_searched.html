@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            position: fixed; /* Keeps it fixed on scroll */
+            top: 0; /* Stick to the top */
+            left: 0;
+            right: 0;
+            z-index: 1000; /* Ensures it stays above other content */
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 40px;
+            width: 100%;
+            gap: 10px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional nice touch */
+            margin-bottom: 100px; /* Space for the fixed navbar */
+        }
+
+        .table{
+            margin: 20px;
+            text-align: center;
+        }
+        .table th{
+            background-color: #007bb5;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .navbar button {
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .navbar button:hover {
+            background-color: #007bb5;
+        }
+
+        .container {
+            margin-top: 100px; /* Add margin to push below the fixed navbar */
+            background: #fff;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/facebook/'">Home</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/fb_user_searched/'">Facebook Users</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/messages/'">Message</button>
+    <button onclick="window.location.href = 'http://127.0.0.1:8000/fb/conversation/'">Conversations</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/summary/'">Summary</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/download_report/'">Download Report</button>
+</div>
+
+<div class="container">
+    <div class="text-end mb-3">
+        <a href="{% url 'download_file' 'profile_data.csv' %}" class="btn btn-success">
+            Download Profile Data
+        </a>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Profile url</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Page Name</th>
+                <th>Profile Visited</th>
+                <th>Visited_Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td> 
+                    <td>{{profile.Profile_url}}</td>
+                    <td>{{ profile.Name }}</td>
+                    <td>{{ profile.Username }}</td>
+                    <td>
+                        {% if profile.Page_Name %}
+                            <a href="{{ profile.Page_Name }}" target="_blank">{{ profile.Page_Name }}</a>
+                        {% else %}
+                            No Page Name
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if profile.Profile_Visited %}
+                            {{ profile.Profile_Visited }}
+                        {% else %}
+                            Not Visited
+                        {% endif %}
+                    </td>
+                    <td>{{profile.Visited_Time}}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No data available</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

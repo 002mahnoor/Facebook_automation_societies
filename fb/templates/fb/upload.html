@@ -1,0 +1,309 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook CSV Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Navbar Style */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 0;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .navbar button {
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            text-align: center;
+        }
+
+        .navbar button:hover {
+            background-color: #007bb5;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar 
+    <div class="navbar">
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/facebook/'">Home</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/fb_user_searched/'">Facebook Users</button>
+        <button onclick="window.location.href = 'http://127.0.0.1:8000/fb/messages/'">Message</button>
+        <button>Conversations</button>
+        <button onclick="window.location.href='http://127.0.0.1:8000/fb/summary/'">Summary</button>
+        <button>Download Today's Report</button>
+    </div>
+
+    <!-- Upload Form
+    <div class="container">
+        <h2>Upload CSV Files</h2>
+        <form action="{% url 'facebook' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <label for="csv_file">Upload Account File:</label>
+            <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
+            <span id="csvFileName" style="color:red; display: block; text-align: left;"></span> <!-- Display for previous file
+
+            <br><br>
+
+            <label for="uni">Upload University File:</label>
+            <input type="file" name="uni" id="uni" accept=".csv" required>
+            <span id="uniFileName" style="color:red; display: block; text-align: left;"></span> <!-- Display for previous file
+
+            <br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to handle file input and display uploaded file name
+        function handleFileUpload(inputId, displayId) {
+            document.getElementById(inputId).addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    // Save only the filename as a string to localStorage
+                    localStorage.setItem(displayId, file.name);
+                    document.getElementById(displayId).textContent = file.name;
+                    document.getElementById(displayId).style.color = 'red'; // Make the filename red
+                }
+            });
+        }
+
+        // When the page loads, check for previously uploaded files and display their names
+        window.onload = function() {
+            // Check if the files were previously uploaded and stored in localStorage
+            var csvFile = localStorage.getItem('csvFileName');
+            var uniFile = localStorage.getItem('secondaryCsvFileName'); // Fix this key if needed
+
+            if (csvFile) {
+                document.getElementById('csvFileName').textContent = csvFile;
+                document.getElementById('csvFileName').style.color = 'red';
+            }
+
+            if (uniFile) {
+                document.getElementById('uniFileName').textContent = uniFile;
+                document.getElementById('uniFileName').style.color = 'red';
+            }
+        };
+
+        // Initialize file upload functionality for both file inputs
+        handleFileUpload('csv_file', 'csvFileName');
+        handleFileUpload('uni', 'uniFileName');
+    </script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook CSV Upload</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 0;
+            width: 100%;
+            margin-bottom: 30px;
+            flex-wrap: nowrap;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .navbar button {
+            background-color: #00bfff;
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .container {
+            margin-top: 100px; /* Add margin to push below the fixed navbar */
+        }
+
+        .navbar button:hover {
+            background-color: #007bb5;
+        }
+
+        .upload-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .upload-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="file"], button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            background: #007bff;
+            color: white;
+            border: none;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        .filename {
+            color: red;
+            display: block;
+            text-align: left;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/facebook/'">Home</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/fb_user_searched/'">Facebook Users</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/messages/'">Message</button>
+    <button onclick="window.location.href = 'http://127.0.0.1:8000/fb/conversation/'">Conversations</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/summary/'">Summary</button>
+    <button onclick="window.location.href='http://127.0.0.1:8000/fb/download_report/'">Download Report</button>
+</div>
+
+<!-- Upload Form -->
+<div class="upload-wrapper">
+    <div class="upload-container">
+        <h2>📤 Upload CSV Files</h2>
+        <form action="{% url 'facebook' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="csv_file">Upload Account File:</label>
+            <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
+            <span id="csvFileName" class="filename"></span>
+
+            <label for="uni" class="mt-4">Upload University File:</label>
+            <input type="file" name="uni" id="uni" accept=".csv" required>
+            <span id="uniFileName" class="filename"></span>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Handle and remember uploaded file names
+    function handleFileUpload(inputId, displayId, storageKey) {
+        document.getElementById(inputId).addEventListener('change', function (event) {
+            var file = event.target.files[0];
+            if (file) {
+                localStorage.setItem(storageKey, file.name);
+                document.getElementById(displayId).textContent = file.name;
+            }
+        });
+    }
+
+    window.onload = function () {
+        var csvFile = localStorage.getItem('csvFileName');
+        var uniFile = localStorage.getItem('uniFileName');
+
+        if (csvFile) {
+            document.getElementById('csvFileName').textContent = csvFile;
+        }
+
+        if (uniFile) {
+            document.getElementById('uniFileName').textContent = uniFile;
+        }
+    };
+
+    handleFileUpload('csv_file', 'csvFileName', 'csvFileName');
+    handleFileUpload('uni', 'uniFileName', 'uniFileName');
+</script>
+
+</body>
+</html>
