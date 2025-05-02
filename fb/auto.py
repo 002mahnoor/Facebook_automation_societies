@@ -63,6 +63,7 @@ class Logger:
         self.buffer += message
         while "\n" in self.buffer:
             line, self.buffer = self.buffer.split("\n", 1)
+
             self.log.write(line + "\n")
 
     def flush(self):
@@ -950,7 +951,7 @@ def profiles_reacted(driver, university_name,univer,username, start_time,page_na
                     print("The user name is : ",name , "and the Search by is : ",username, "and the page is : ", page_name, "and the status of profile visited is  :  Yes")
 
                     time.sleep(3)  # Allow about page to load
-                    stoper(username,start_time)
+                    stoper(username,start_time, driver)
                     # Once done, close the new tab
                     driver.close()
 
@@ -984,7 +985,7 @@ def click_all_like_buttons(driver, university_name,visited_profiles,univer, user
         if new_height >= last_height:
             break  # Stop when the bottom is reached
     print("I have scrolled to the end")
-    stoper(username,start_time)
+    stoper(username,start_time, driver)
     like_buttons = driver.find_elements(
     By.XPATH,
     "//div[@role='button' and .//div[@class='x9f619 x1ja2u2z xzpqnlu x1hyvwdk x14bfe9o xjm9jq1 x6ikm8r x10wlt62 x10l6tqk x1i1rx1s' and normalize-space(text())='All reactions:']]"  # add additional conditions as needed
@@ -1086,20 +1087,20 @@ def init_driver():
     return driver
 
 from datetime import time as tm
-def stoper(username,start_time):
+def stoper(username,start_time, driver):
     stop_time = datetime.datetime.combine(datetime.datetime.today().date(), tm(hour=23, minute=00, second=0))
 
-    if datetime.datetime.now() >= stop_time:
+    if datetime.datetime.now() >= stop_time or messages_sent_counter >= 4:
         print("Stop time. Exiting userhit.")
         if os.path.exists("temp_username.txt"):
             os.remove("temp_username.txt")
         # Log session end time
         end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print("th estart time is ", start_time, "and the end time is ", end_time, "\n ")
-        
+        print("th estart time is ", start_time, "and the end time is ", end_time, "\n ")  
         # Log both times in the same row
         log_to_csv(csv_filename, start_time, end_time, username)
         session_summary(start_time, end_time)
+        log_out(driver)    
         raise SystemExit("STOP")
         
 
@@ -1114,7 +1115,7 @@ def main_handler(username, password, univer, index, requester):
 
     driver = init_driver()
     start_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    stoper(username, start_time)
+    stoper(username, start_time,driver)
     driver.get("https://www.facebook.com")
     time.sleep(2)  # Allow page to load
     
