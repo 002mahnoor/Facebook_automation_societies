@@ -716,12 +716,21 @@ def close_liker_dialog(driver):
         print("Dialog closed using Escape key.")
 
 
-EXCEL_FILE = "visited_profiles.xlsx"
+EXCEL_FILE = r"C:\Users\Mahnoor-zubair\Desktop\main - Copy\main - Copy\visited_profiles.xlsx"
+
+from urllib.parse import urlparse, parse_qs, urlencode
 
 def extract_base_url(link):
-    """Extracts the main profile link, removing query parameters."""
-    parsed_url = urlparse(link)
-    return f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
+    parsed = urlparse(link)
+    base_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+    query = parse_qs(parsed.query)
+
+    if 'profile.php' in parsed.path and 'id' in query:
+        return f"{base_url}?id={query['id'][0]}"
+    else:
+        return base_url
+
+
 
 def load_visited_profiles():
     """Loads visited profiles from the Excel file, ensuring column existence."""
@@ -797,176 +806,260 @@ def save_visited_profile(profile_url, name, status, find_time):
 
     df.to_excel(EXCEL_FILE, index=False)
 
+
+# def profiles_reacted(driver, university_name,univer,username):
+#     profile_elements = driver.find_element(By.XPATH,
+#         "//div[@class='xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd']")
+#     time.sleep(5)  # Wait for dynamic content to load
+
+#     # Hover over the div
+#     ActionChains(driver).move_to_element(profile_elements).perform()
+#     # Optional pause to simulate real user
+#     time.sleep(2)
+
+#      # Scroll quickly until max height is reached
+#     last_height = driver.execute_script("return arguments[0].scrollHeight", profile_elements)
+
+#     while True:
+#         driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", profile_elements)
+#         time.sleep(1)  # Reduced pause
+#         new_height = driver.execute_script("return arguments[0].scrollHeight", profile_elements)
+
+#         if new_height == last_height:
+#             break
+#         last_height = new_height
+
+#     print("Scrolling complete!")
+#     unique_profiles_found = False
+#     links = profile_elements.find_elements(By.TAG_NAME, "a")
+#     profile_links = [link.get_attribute("href") for link in links if link.get_attribute("href")]
+#     print(len(profile_links))
+#     # Convert all links to base URLs for comparison
+#     profile_base_urls = {extract_base_url(link) for link in profile_links}
+
+#     print("---- Raw Links ----")
+#     for link in profile_links[:10]:  # Sample
+#         print(link)
+
+#     print("\n---- Extracted Base URLs ----")
+#     for base in list(profile_base_urls)[:10]:
+#         print(base)
+    
+#     visited_profiles = load_visited_profiles()
+    
+#     unique_people_links = profile_base_urls - visited_profiles  # Compare only base URLs
+
+#     if unique_people_links:
+#         unique_profiles_found = True 
+#         for profile_base_url in unique_people_links:
+#             visited_profiles.add(profile_base_url)  # Store only base URLs
+            
+#             # save_visited_profile(profile_base_url, name, status)  # Save to Excel
+#             print(f"✅ Visiting profile: {profile_base_url}")
+
+
+
 def profiles_reacted(driver, university_name,univer,username, start_time,page_name):
     status = None
-    visited_profiles = load_visited_profiles()  # Load existing profiles
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_attempts = 0
-    max_scroll_attempts = 2  # Adjust as needed
-    while True:
-        try:
+    try:
+    #     profile_elements = driver.find_element(By.XPATH,
+    #         "//div[@class='xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd']")
+        # Retry mechanism to handle dynamic loading
+        attempt = 0
+        max_attempts = 5
+        profile_elements = None
 
-            # Flag to indicate whether any unique profiles were found during scrolling
-            unique_profiles_found = False
-            profile_elements = driver.find_elements(By.XPATH, 
-                "//span/div/span/a[contains(@href, 'facebook.com/profile.php?id=') or contains(@href, 'facebook.com/')]"
-            )
-            profile_links = [elem.get_attribute("href") for elem in profile_elements if elem.get_attribute("href")]
-            # Convert all links to base URLs for comparison
-            profile_base_urls = {extract_base_url(link) for link in profile_links}
-            unique_people_links = profile_base_urls - visited_profiles  # Compare only base URLs
+        while attempt < max_attempts:
+            try:
+                profile_elements = driver.find_element(By.XPATH, "//div[@class='xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd']")
+                break
+            except NoSuchElementException:
+                print("🔁 Waiting for scrollable div to appear...")
+                time.sleep(3)
+                attempt += 1
 
-            if not unique_people_links:
-                print("⚠ No new unique profiles found. Scrolling down...")
-                scroll_attempts += 1
-                scrollable_div = driver.find_element(By.CLASS_NAME, 'xb57i2i')
-                for _ in range(3):  # Scroll multiple times
-                    driver.execute_script("arguments[0].scrollTop += 500;", scrollable_div)
-                    time.sleep(1)
-                if scroll_attempts >= max_scroll_attempts:
-                    print("Reached maximum scroll attempts with no new profiles on this page.")
-                    break
+        time.sleep(5)  # Wait for dynamic content to load
+
+        # Hover over the div
+        ActionChains(driver).move_to_element(profile_elements).perform()
+        # Optional pause to simulate real user
+        time.sleep(2)
+
+        # Scroll quickly until max height is reached
+        last_height = driver.execute_script("return arguments[0].scrollHeight", profile_elements)
+
+        while True:
+            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", profile_elements)
+            time.sleep(1)  # Reduced pause
+            new_height = driver.execute_script("return arguments[0].scrollHeight", profile_elements)
+
+            if new_height == last_height:
+                break
+            last_height = new_height
+
+        print("Scrolling complete!")
+        unique_profiles_found = False
+        links = profile_elements.find_elements(By.TAG_NAME, "a")
+        profile_links = [link.get_attribute("href") for link in links if link.get_attribute("href")]
+        print(len(profile_links))
+        # Convert all links to base URLs for comparison
+        profile_base_urls = {extract_base_url(link) for link in profile_links}
+
+        print("---- Raw Links ----")
+        for link in profile_links[:10]:  # Sample
+            print(link)
+
+        print("\n---- Extracted Base URLs ----")
+        for base in list(profile_base_urls)[:10]:
+            print(base)
+        
+        visited_profiles = load_visited_profiles()
+        
+        unique_people_links = profile_base_urls - visited_profiles  # Compare only base URLs
+
+        if unique_people_links:
+            unique_profiles_found = True 
+            for profile_base_url in unique_people_links:
+                visited_profiles.add(profile_base_url)  # Store only base URLs
                 
-                time.sleep(random.randint(1,3))
-                continue
-            else:
-                unique_profiles_found = True
-                scroll_attempts = 0  
-                for profile_base_url in unique_people_links:
-                    visited_profiles.add(profile_base_url)  # Store only base URLs
-                    
-                    # save_visited_profile(profile_base_url, name, status)  # Save to Excel
-                    print(f"✅ Visiting profile: {profile_base_url}")
+                # save_visited_profile(profile_base_url, name, status)  # Save to Excel
+                print(f"✅ Visiting profile: {profile_base_url}")
 
-                    main_window = driver.current_window_handle
-                    # Open a new tab
-                    driver.execute_script("window.open(arguments[0], '_blank');", profile_base_url)
-                    global profiles_visited_counter
-                    profiles_visited_counter += 1
-                    time.sleep(2)  # Wait for the new tab to load
-                    all_windows = driver.window_handles
+                main_window = driver.current_window_handle
+                # Open a new tab
+                driver.execute_script("window.open(arguments[0], '_blank');", profile_base_url)
+                global profiles_visited_counter
+                profiles_visited_counter += 1
+                time.sleep(2)  # Wait for the new tab to load
+                all_windows = driver.window_handles
 
-                    # The new tab should be the last handle in the list (if you haven't opened multiple)
-                    new_tab = [handle for handle in all_windows if handle != main_window][0]
-                    driver.switch_to.window(new_tab)
-                    find_time = datetime.datetime.now()
-                    try:
-                        profile_name_element = driver.find_element(By.XPATH, "//h1[contains(@class, 'html-h1 xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x1vvkbs x1heor9g x1qlqyl8 x1pd3egz x1a2a7pz')]")
-                        name = profile_name_element.text
-                    except:
-                        print("Couldnt find the element")
-                    # variations.random_cursor_movement()
-                    actions = [check_photos, check_friends, check_videos]
-                    random.choice(actions)(driver)
-                    driver.execute_script("window.scrollBy(0, 300);")
-                    about_section = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.LINK_TEXT, "About"))
-                )
-                    pyautogui.moveTo(400, 50, duration=0.5)
-                    move_cursor_to_element(about_section)
+                # The new tab should be the last handle in the list (if you haven't opened multiple)
+                new_tab = [handle for handle in all_windows if handle != main_window][0]
+                driver.switch_to.window(new_tab)
+                find_time = datetime.datetime.now()
+                try:
+                    # profile_name_element = driver.find_element(By.XPATH, "//h1[contains(@class, 'html-h1 xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x1vvkbs x1heor9g x1qlqyl8 x1pd3egz x1a2a7pz')]")
+                    profile_name_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//div[contains(@class, 'x1e56ztr') or contains(@class, 'x1xmf6yo')]//h1")
+            )
+        )
+                    name = profile_name_element.text
+                except:
+                    print("Couldnt find the element")
+                # variations.random_cursor_movement()
+                actions = [check_photos, check_friends, check_videos]
+                random.choice(actions)(driver)
+                driver.execute_script("window.scrollBy(0, 300);")
+                about_section = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.LINK_TEXT, "About"))
+            )
+                pyautogui.moveTo(400, 50, duration=0.5)
+                move_cursor_to_element(about_section)
+                print("Cursor moved to the element (pyautogui)")
+                
+                about_section.click()
+                target_university = university_name.lower()  # We will match anything containing "Abertay"
+                print(f"The target university is : {target_university}")
+
+                time.sleep(random.randint(4,7))
+
+                try:
+                    wait = WebDriverWait(driver, 10)
+                    print("Compairing the text of the uniersities if the person in university or not")
+                    text_ = wait.until(EC.presence_of_element_located(
+                    (By.XPATH, "//div[contains(@class, 'x13faqbe')]//span[contains(text(), 'Studies')]")
+                    ))#or contains(text(), 'Studied')
+                    move_cursor_to_element(text_)
                     print("Cursor moved to the element (pyautogui)")
                     
-                    about_section.click()
-                    target_university = university_name.lower()  # We will match anything containing "Abertay"
-                    print(f"The target university is : {target_university}")
+                    print("✅ Got the text, now comparing with target universities")
 
-                    time.sleep(random.randint(4,7))
+                    plain_text = text_.text.lower()
+                    print(f"📌 Extracted text: {plain_text}")
+                    university_part = plain_text.split("at", 1)[-1].strip()
+                    print(f"🔍 Text after 'at': {university_part}")
 
-                    try:
-                        wait = WebDriverWait(driver, 10)
-                        print("Compairing the text of the uniersities if the person in university or not")
-                        text_ = wait.until(EC.presence_of_element_located(
-                        (By.XPATH, "//div[contains(@class, 'x13faqbe')]//span[contains(text(), 'Studies')]")
-                        ))#or contains(text(), 'Studied')
-                        move_cursor_to_element(text_)
-                        print("Cursor moved to the element (pyautogui)")
-                       
-                        print("✅ Got the text, now comparing with target universities")
+                    ignore_words = {"university", "college", "at", "in", "of", "the", "studied", "studies", "study", "technology"}
+                    words_in_text = set(plain_text.split()) - ignore_words
+                    print(f"🔍 Filtered words from extracted text: {words_in_text}")
 
-                        plain_text = text_.text.lower()
-                        print(f"📌 Extracted text: {plain_text}")
+                    found_match = False
+                    for university_name in univer["university"]:
+                        words_in_university = set(university_name.lower().split()) - ignore_words
+                        matching_words = words_in_text.intersection(words_in_university)
 
-                        ignore_words = {"university", "college", "at", "in", "of", "the", "studied", "studies", "study", "technology"}
-                        words_in_text = set(plain_text.split()) - ignore_words
-                        print(f"🔍 Filtered words from extracted text: {words_in_text}")
-
-                        found_match = False
-                        for university_name in univer["university"]:
-                            words_in_university = set(university_name.lower().split()) - ignore_words
-                            matching_words = words_in_text.intersection(words_in_university)
-
-                            if matching_words:
-                                print(f"✅ Match found: {university_name} 🎯")
-                                global profile_matched_counter
-                                profile_matched_counter += 1
-                                # **Check rate limit before sending a message**
-                                print("I am before can send message function ")
-                                if can_send_message():
-                                    unread_profiles(driver)
-                                    print("Yes we can send messages and sent mesages variabkle has been initialized")
-                                    driver.execute_script("window.scrollTo(0, 0);")
-                                    time.sleep(random.randint(2, 5))
-                                    send_request(driver)
-                                  
-                                    wrote_message = send_message(driver, "Hello, Hope you are doing well. Do let me know if you need assistance with anything")
-                                    # wrote_message = send_message(driver, "Hello! How are you?")
-                                    print("The message was already sent ", wrote_message)
-                                    if wrote_message==True:
-                                        status = "sent"
-                                        save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
-                                        log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
-                                        global messages_sent_counter
-                                        messages_sent_counter += 1
-                                    elif wrote_message==False:
-                                        status = "already send"
-                                        save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
-                                        log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
-                                        global already_sent_counter
-                                        already_sent_counter += 1
-                                    # sent_messages.append(datetime.datetime.now())  # Track message timestamp
-                                else:
-                                    status = "pending"
-                                    log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
-                                    global pending_messages_counter
-                                    pending_messages_counter += 1
-                                    save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
-                                    
-                                found_match = True
-                                break  # Stop checking further universities
+                        if matching_words:
+                            print(f"✅ Match found: {university_name} 🎯")
+                            global profile_matched_counter
+                            profile_matched_counter += 1
+                            # **Check rate limit before sending a message**
+                            print("I am before can send message function ")
+                            if can_send_message():
+                                unread_profiles(driver)
+                                print("Yes we can send messages and sent mesages variabkle has been initialized")
+                                driver.execute_script("window.scrollTo(0, 0);")
+                                time.sleep(random.randint(2, 5))
+                                send_request(driver)
                                 
-                        if not found_match:
-                            status="not sent"
-                            save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
-                            print(f"⚠ The overview does not show the person is from a target university.")
-
-                    except TimeoutException:
+                                wrote_message = send_message(driver, f"Hi {name}, How are you? Are you a student of {university_part}?")
+                                # wrote_message = send_message(driver, "Hello! How are you?")
+                                print("The message was already sent ", wrote_message)
+                                if wrote_message==True:
+                                    status = "sent"
+                                    save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
+                                    log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
+                                    global messages_sent_counter
+                                    messages_sent_counter += 1
+                                elif wrote_message==False:
+                                    status = "already send"
+                                    save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
+                                    log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
+                                    global already_sent_counter
+                                    already_sent_counter += 1
+                                # sent_messages.append(datetime.datetime.now())  # Track message timestamp
+                            else:
+                                status = "pending"
+                                log_session_visits(profile_base_url, name, status, find_time)  # Save to Excel
+                                global pending_messages_counter
+                                pending_messages_counter += 1
+                                save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
+                                
+                            found_match = True
+                            break  # Stop checking further universities
+                            
+                    if not found_match:
                         status="not sent"
                         save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
-                        print("⚠ No university info found in profile. Skipping this person.")
+                        print(f"⚠ The overview does not show the person is from a target university.")
 
-                    # except Exception as e:
-                    #     print(f"❌ Error during university verification: {str(e)}")
+                except TimeoutException:
+                    status="not sent"
+                    save_visited_profile(profile_base_url, name, status, find_time)  # Save to Excel
+                    print("⚠ No university info found in profile. Skipping this person.")
 
-                    save_profile_data(profile_base_url,name, username, page_name)
-                    print("The user name is : ",name , "and the Search by is : ",username, "and the page is : ", page_name, "and the status of profile visited is  :  Yes")
+                # except Exception as e:
+                #     print(f"❌ Error during university verification: {str(e)}")
 
-                    time.sleep(3)  # Allow about page to load
-                    stoper(username,start_time, driver)
-                    # Once done, close the new tab
-                    driver.close()
+                save_profile_data(profile_base_url,name, username, page_name)
+                print("The user name is : ",name , "and the Search by is : ",username, "and the page is : ", page_name, "and the status of profile visited is  :  Yes")
 
-                    # Switch back to the main tab
-                    driver.switch_to.window(main_window)
-                    time.sleep(6)  # Allow profile to load
-                
+                time.sleep(3)  # Allow about page to load
+                stoper(username,start_time, driver)
+                # Once done, close the new tab
+                driver.close()
+
+                # Switch back to the main tab
+                driver.switch_to.window(main_window)
+                time.sleep(6)  # Allow profile to load
+        
                     
-        except Exception as e:
-            print(f"❌ Error extracting or visiting profiles: {e}")
-            driver.close()
-            # Switch back to the main tab
-            driver.switch_to.window(main_window)
-            time.sleep(6)  # Allow profile to load
-            break
+    except Exception as e:
+        print(f"❌ Error extracting or visiting profiles: {e}")
+        driver.close()
+        # Switch back to the main tab
+        driver.switch_to.window(main_window)
+        time.sleep(6)  # Allow profile to load
     # Save unmatched profiles to Excel after processing
         # save_profiles_to_excel()
     close_liker_dialog(driver)
@@ -1044,8 +1137,37 @@ def send_pending_message(driver):
             driver.switch_to.window(new_tab)
             
             # Send the message
-        
-            wrote_message = send_message(driver, "Hello, Hope you are doing well. Do let me know if you need assistance with anything")
+            try:
+                profile_name_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//div[contains(@class, 'x1e56ztr') or contains(@class, 'x1xmf6yo')]//h1")
+            )
+        )
+                name = profile_name_element.text
+            except:
+                print("name elemet not found")
+            try:
+                about_section = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.LINK_TEXT, "About"))
+            )
+                
+                about_section.click()
+
+                try:
+                    wait = WebDriverWait(driver, 10)
+                    text_ = wait.until(EC.presence_of_element_located(
+                    (By.XPATH, "//div[contains(@class, 'x13faqbe')]//span[contains(text(), 'Studies')]")
+                    ))#or contains(text(), 'Studied')
+
+                    plain_text = text_.text.lower()
+                    print(f"📌 Extracted text: {plain_text}")
+                    university_part = plain_text.split(" at ", 1)[-1].strip()
+                    print(f"🔍 Text after 'at': {university_part}")
+                except:
+                    print("No university data found")
+            except:
+                print("couldnt find the about section")
+            wrote_message = send_message(driver, f"Hi {name}, How are you? Are you a student of {university_part}?")
             # wrote_message = send_message(driver, "Hello! How are you?")
             print("The message was already sent ", wrote_message)  
             time.sleep(3)  # Wait for message to send
