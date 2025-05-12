@@ -1,41 +1,609 @@
 university
-Abertay University
-Aberystwyth University
-Anglia Ruskin University
-University Bournemouth
-Arts University Plymouth
-Aston University
-Bangor University
-Bath Spa University
-Birmingham City University
-Birmingham Newman University
-Bishop Grosseteste University
-Bournemouth University
-BPP University
-Brunel University London
-Buckinghamshire New University
-Canterbury Christ Church University
-Cardiff Metropolitan University
-Cardiff University
-University of London
-Coventry University
+Swansea University
+Northumbria University
+Northumbria University Pathway
+Nottingham Trent University
+Nottingham Trent University Online
+Oxford Brookes University
+Lancaster Environment Centre
+Newcastle University
+University of St Andrews
+University of Stirling
+University of Strathclyde
+University of Strathclyde Business School
+University of Surrey
+Scotland's Rural College (SRUC)
+Sheffield Hallam University
+SOAS University of London
+"St George's, University of London"
+Swansea University
+Northumbria University
+Northumbria University Pathway
+Nottingham Trent University
+Nottingham Trent University Online
+Oxford Brookes University
+Lancaster Environment Centre
+Lancaster University - Management School
+Leeds Beckett University
+London Metropolitan University
+London South Bank University
 Cranfield University
-De Montfort University
 Durham University
 Edge Hill University
 Edinburgh Napier University
-European School of Economics
-Falmouth University
 Glasgow Caledonian University
-Goldsmiths University of London
-"Guildhall School of Music and Drama	London"
-"Harper Adams University	Newport"
-Hartpury University and Hartpury College
-Heriot-Watt University
-Imperial College London
-Keele University
-King's College London
-Kingston University
-Lancaster University
-Leeds Arts University
+University of Derby
+University of Dundee
+University of East Anglia
+University of East London
+University of Essex
+University of Leeds
+University of Leicester
+University of Lincoln
+University of Northampton
+University of Nottingham
+Birmingham City University
+Bournemouth University
+Brighton and Sussex Medical School
+Brunel University London Pathway College
+Cambridge Judge Business School
+Canterbury Christ Church University
+Cardiff Metropolitan University
+Coventry University
+Cranfield School of Management
+University of Sussex
+University of Essex Online
+University of Exeter
+University of Hertfordshire
+University of Huddersfield
+University of Hull
+Queen Margaret University
+Robert Gordon University
+Robert Gordon University (RGU)
+Royal Holloway University of London
+"Royal Holloway, University of London"
+University of Bath Online
+University of Bedfordshire
 University of Bradford
+University of Brighton
+University of Central Lancashire
+Alliance Manchester Business School
+Anglia Ruskin University
+Aston University
+Bangor University
+"Birkbeck, University of London"
+Heriot-Watt University
+Hertfordshire International College
+Hull University Business School
+Keele University
+Keele University International College
+"The College, Swansea University"
+The University of Exeter
+The University of Winchester
+Ulster University
+University of Aberdeen
+University of Salford
+Loughborough University
+University of Sheffield
+Royal Veterinary College
+Northumbria University London Campus
+Lancaster University
+De Montfort University
+University of Central Lancashire (UCLan)
+University of Kent
+Brunel University London - Online
+Cardiff University
+University of Greenwich
+Queen's University Belfast
+University of Bath
+Aberystwyth University
+Harper Adams University
+The Open University UK
+"City, University of London"
+University of Sussex Online
+University of the West of England (UWE Bristol)
+"University of the West of England, Bristol"
+University of the West of Scotland
+University of Westminster
+University of Wolverhampton
+University of York
+WMG University of Warwick
+Curtin University
+Queensland University of Technology
+University of Newcastle
+University of Wollongong
+Western Sydney University
+Australian Catholic University
+Bond University
+Deakin University 
+Griffith College
+Griffith University
+La Trobe University
+University of Canberra
+Flinders University
+RMIT University
+Swinburne University of Technology
+University of South Australia
+University of Southern Queensland
+University of Tasmania
+Charles Darwin University
+Edith Cowan University
+James Cook University
+Murdoch University
+Victoria University
+CQUniversity Australia
+Federation University Australia
+Southern Cross University
+University of the Sunshine Coast
+Swinburne Online
+La Trobe University Sydney Campus
+Sydney Institute of Business and Technology
+Western Sydney University International College
+"Western Sydney University, The College"
+South Australian Institute of Business and Technology
+University of Canberra College
+Charles Sturt University
+University of New England
+King Khalid University
+Qassim University
+Taif University
+"Institute of Public Administration, Saudi Arabia"
+Jazan University
+University of Jeddah
+Prince Mohammad Bin Fahd University
+Princess Nora bint Abdulrahman University
+Prince Sattam Bin Abdulaziz University
+Prince Sultan University
+Majmaah University
+King Saud bin Abdulaziz University for Health Sciences
+Najran University
+University of Tabuk
+Alfaisal University
+Al Jouf University
+Effat University
+University of Ha'il
+Dar Al-Hekma University
+University of Hafr Al Batin
+Al Baha University
+Northern Borders University
+University of Business and Technology
+Al Yamamah University
+Shaqra University
+University of Bisha
+Dar Al Uloom University
+Fahad Bin Sultan University
+MODUL University Dubai
+Murdoc University Dubai
+Ajman University
+Al Dar University college
+UK College of Business & Computing
+Middlesex Univerisity Dubai
+SBS Swiss Business School
+University of Dubai
+Maverick Business Academy London
+American Univrsity of RAS AI Khaimah (AURAK)
+IMT Business School Dubai
+Rochester Institute of Technology Rit Dubai
+Heriot Watt University Dubai Campus
+London American City College (LACC) (ICBEST)
+Maynooth University
+Dublin Institute Of Technology
+National University of Ireland
+Waterford Institute of Technology
+Limerick Institute of Technology
+Cork Institute of Technology
+University of Limerick
+Letterkenny Institute of Technology
+Royal College of Surgeon in Ireland
+Institute of Technology of Sligo
+GMIT Galway Campus
+Dundalk Institute of Technology
+All Hallows College
+Carlow College
+Institute of Public Administration 
+Institute of Technology Talee- South Campus
+Saint Patrick's College Maynooth
+Marino Institute of Education
+Maktoum Bin Hamdan Dental University College
+Mohammed V University Abu Dhabi
+University of Jazeera
+Ittihad University
+European International College
+University College of Mother and Family Sciences
+Emirates College for Management and Information Technology
+MENA College of Management
+Emirates Canadian University College
+American College of Dubai
+European University College
+University of Fujairah
+Jumeira University
+"University of Modern Sciences, UAE"
+Shaheed Zulfikar Ali Bhutto Institute of Science and Technology Dubai
+Islamic Azad University U.A.E. Branch
+Imam Malik College for Islamic Sharia and Law
+Dubai Medical College
+Abu Dhabi School of Management
+Emirates Aviation University
+Fatima College of Health Sciences
+Khawarizmi International College
+Emirates Institute for Banking and Financial Studies
+Abu Dhabi Polytechnic
+Al Falah University - Dubai
+Al Qasimia University
+"Manipal University, Dubai"
+Amity University Dubai
+Al Wasl University
+Paris-Sorbonne University Abu Dhabi
+Mohammed Bin Rashid University of Medicine and Health Sciences
+ALHOSN University
+Emirates College of Technology
+Institute of Management Technology Dubai
+Dubai Pharmacy College
+Ras al-Khaimah Medical and Health Sciences University
+City University College of Ajman
+Al Ghurair University
+Emirates College for Advanced Education
+Emirates Academy of Hospitality Management
+Skyline University College
+Mohammed Bin Rashid School of Government
+Canadian University of Dubai
+Al Ain University of Science and Technology
+British University in Dubai
+Gulf Medical University
+American University in the Emirates
+Abu Dhabi University
+University of Wollongong in Dubai
+Abbey DLD Colleges
+Al-Maktoum College of Higher Education
+Athlone Institute of Technology
+BARBRI International
+Bath Academy
+Brockenhurst College
+London South East Colleges: Bromley
+Cambridge Regional College
+Cambridge Seminars College
+CATS Global Schools
+Central College Nottingham
+Chichester College
+City of Bath College
+Coventry College
+David Game College
+DLD College London
+"Docklands Academy, London"
+Dublin Business School
+Edinburgh College
+ESCP Business School
+Exeter College
+Grantham College
+Guildford College
+Independent College Dublin
+Institute of Technology Carlow
+Institute of Technology Sligo
+Itchen College
+Leicester College
+Leicester Montessori School
+The London Academy of Trading
+London School of Design and Marketing
+Mont Rose College
+MPW Colleges
+National College of Ireland
+Northeastern University London
+Oxford Sixth Form College
+Technological University of the Shannon: Midlands Midwest
+XU Exponential University of Applied Sciences
+WINGS Professional Studies
+"WiSo Nuremberg (School of Business, Economics and Society)"
+Witten/Herdecke University
+Worms University of Applied Sciences
+VICTORIA | International University of Applied Sciences
+Weihenstephan-Triesdorf University of Applied Sciences
+West Coast University of Applied Sciences
+WHU - Otto Beisheim School of Management
+"University of Veterinary Medicine Hannover, Foundation (TiHo)"
+University of Wuppertal
+University of Passau
+University of Potsdam
+University of Rostock
+University of Siegen
+University of Stuttgart
+University of Kassel
+University of Konstanz
+University of Mannheim
+University of Oldenburg
+University of Freiburg
+University of Greifswald
+University of Hildesheim
+University of Hohenheim
+University of Education Freiburg
+University of Education Ludwigsburg
+University of Erfurt
+University of Europe for Applied Sciences
+University of Bonn
+University of Bremen
+University of Cologne
+University of Cologne Business School
+University of Duisburg-Essen
+University of Applied Sciences Stralsund
+University of Applied Sciences Wedel
+University of Augsburg
+University of Bamberg
+University of Bayreuth
+University of Applied Sciences Konstanz (HTWG)
+University of Applied Sciences Mainz
+University of Applied Sciences Mittweida
+University of Applied Sciences Neubrandenburg
+University of Applied Sciences Potsdam
+University for Sustainable Development Eberswalde
+University of Applied Management Studies
+University of Applied Sciences Bremerhaven
+TU Bergakademie Freiberg
+TU Darmstadt
+TU Dortmund University
+Ulm University
+Ulm University of Applied Sciences
+TH Mittelhessen University of Applied Sciences - THM
+Tomorrow University of Applied Sciences
+Touro University Berlin | A Campus of Touro University New York • USA
+Trier University
+Trier University of Applied Sciences
+TH Bingen University of Applied Sciences
+TH Georg Agricola University of Applied Sciences (THGA)
+Technische Hochschule Ingolstadt
+Technische Hochschule Ostwestfalen-Lippe
+Steinbeis University - Schools of Next Practices
+Technical University of Applied Sciences Wildau
+Technical University of Munich
+SRH University Heidelberg
+SRH University of Applied Sciences in North Rhine-Westphalia
+Schmalkalden University of Applied Sciences
+South Westphalia University of Applied Sciences
+SRH Berlin School of Design and Communication (BSDC)
+SRH Berlin University of Applied Sciences
+RWTH Aachen University
+Saarland University
+RheinMain University of Applied Sciences
+Rhine-Waal University of Applied Sciences
+Rhineland-Palatinate Technical University Kaiserslautern-Landau
+Rosenheim Technical University of Applied Sciences
+Quadriga University of Applied Sciences Berlin
+Ravensburg-Weingarten University of Applied Sciences
+Reutlingen University
+OTH Regensburg
+Otto von Guericke University Magdeburg
+Paderborn University
+Pforzheim University
+Offenburg University of Applied Sciences
+Ostbayerische Technische Hochschule Amberg-Weiden (OTH)
+Nordakademie Hochschule der Wirtschaft
+Nordhausen University of Applied Sciences
+Nuertingen-Geislingen University
+Nuremberg Tech
+Munich University of Applied Sciences
+Neu-Ulm University of Applied Sciences
+Magdeburg-Stendal University of Applied Sciences
+annheim Business School
+Martin Luther University Halle-Wittenberg
+Leipzig University
+Ludwigshafen University of Business and Society
+Macromedia University of Applied Sciences
+Kiel University
+Kiel University of Applied Sciences
+Landshut University of Applied Sciences
+Kaiserslautern University of Applied Sciences
+Karlsruhe Institute of Technology (KIT)
+Kempten University of Applied Sciences
+IU International University of Applied Sciences
+Jade University of Applied Sciences Wilhelmshaven Oldenburg Elsfleth
+Johannes Gutenberg University Mainz
+Justus Liebig University Giessen
+International School of Management (ISM)
+htw saar - University of Applied Sciences
+Hof University of Applied Sciences
+HSB Hochschule Bremen – City University of Applied Sciences
+HSBA Hamburg School of Business Administration
+HTW Berlin - University of Applied Sciences
+HTW Dresden - University of Applied Sciences
+Hochschule Mannheim - University of Applied Sciences
+Hochschule Merseburg
+Hochschule Niederrhein - University of Applied Sciences
+"Hochschule Wismar - University of Applied Sciences, Technology, Business and Design"
+Hochschule Bonn-Rhein-Sieg
+Hochschule der Bayerischen Wirtschaft (HDBW)
+Hochschule Emden/Leer - University of Applied Sciences
+Hochschule Fresenius - University of Applied Sciences
+Hertie School
+HFU Business School
+HHL Leipzig Graduate School of Management
+HKA - Karlsruhe University of Applied Sciences
+Heidelberg University
+Heilbronn University of Applied Sciences
+Heinrich Heine University Düsseldorf
+Hamburg University of Technology
+Hamm-Lippstadt University of Applied Sciences
+Hannover Medical School
+Harz University of Applied Sciences
+Hasso Plattner Institute (HPI)
+Goethe University Frankfurt
+HafenCity University Hamburg
+Hamburg University of Applied Sciences
+Furtwangen University
+German International University (GIU)
+German Sport University Cologne
+Friedrich Schiller University Jena
+Fulda University of Applied Sciences
+FOM University of Applied Sciences
+Frankfurt School of Finance and Management
+Frankfurt University of Applied Sciences
+FHM - Fachhochschule des Mittelstands
+Flensburg University of Applied Sciences
+European University Viadrina
+Fachhochschule Erfurt
+FH Aachen University of Applied Sciences
+ESMT Berlin
+Esslingen University of Applied Sciences
+Vancouver Island University
+Royal Roads University
+Simon Fraser University
+Trinity Western University
+Thompson River University
+University of the Fraser Valley
+University of British Columbia
+University of Northern British Columbia
+University of Victoria
+First Nations University of Canada
+University of Regina
+University of Saskatchewan
+Athabasca University
+Augustana University College
+Concordia University College of Alberta
+The King’s University College
+University of Alberta
+University of Calgary
+University of Lethbridge
+MacEwan University
+Mount Royal University
+Brandon University
+University of Manitoba
+University of Winnipeg
+Canadian Mennonite University
+St. Paul’s College
+Université de Saint-Boniface
+Algoma University
+Brescia University College
+Brock University
+Carleton University
+Dominican University College
+Huron University College
+King’s University College at Western University
+Lakehead University
+Laurentian University
+McMaster University
+Nipissing University
+OCAD University
+Queen’s University
+Redeemer University College
+Royal Military College of Canada
+Ryerson University
+Saint Paul University
+St. Jerome’s University
+Trent University
+University of Guelph
+University of Ontario Institute of Technology
+University of Ottawa
+University of St. Michael’s College
+University of Sudbury
+University of Toronto
+University of Trinity College
+University of Waterloo
+University of Western Ontario
+University of Windsor
+Wilfrid Laurier University
+York University
+University of Prince Edward Island
+Acadia University
+Cape Breton University
+Dalhousie University
+Mount Saint Vincent University
+NSCAD University
+Saint Mary’s University
+St. Francis Xavier University
+Université Sainte-Anne
+University of King’s College
+Mount Allison University
+St. Thomas University
+Université de Moncton
+University of New Brunswick
+Memorial University of Newfoundland
+British Columbia Institute of Technology
+Okanagan College
+Ashton College
+Brighton College
+Columbia College
+Camosun College
+Canadian College
+Capilano University
+Collège Éducacentre
+College of the New Caledonia
+College of the Rockies
+Douglas College
+Eton College
+Justice Institute of British Columbia
+Kwantlen Polytechnic University
+Langara College
+Native Education College
+Nicola Valley Institute of Technology
+North Island College
+Northern Lights College
+Northwest Community College
+Selkirk College
+Sprott Shaw College
+Vancouver Community College
+Vancouver Institute of Media Arts
+Winnipeg Technical College
+Assiniboine Community College
+University College of the North
+"Red River College of Applied Arts, Science and Technology"
+"École technique et professionnelle, Université de Saint-Boniface"
+Manitoba Institute of Trades and Technology
+New Brunswick College of Craft and Design
+New Brunswick Community College
+Maritime College of Forest Technology
+New Brunswick Bible Institute
+College of the North Atlantic
+Marine Institute
+Centre for Nursing Studies
+"Université de Guelph, Campus d’Alfred"
+Algonquin College
+Collège Boréal
+Cambrian College of Applied Arts and Technology
+Canadore College of Applied Arts and Technology
+Centennial College of Applied Arts and Technology
+La Cité collégiale
+Conestoga College Institute of Technology and Advanced Learning
+Confederation College of Applied Arts and Technology
+Durham College
+Fanshawe College of Applied Arts and Technology
+Fleming College
+George Brown College
+Georgian College of Applied Arts and Technology
+"Humber College Institute of Technology & Advanced Learning University of Guelph, Kemptville Campus"
+Lambton College of Applied Arts and Technology
+Loyalist College of Applied Arts and Technology
+The Michener Institute for Applied Health Sciences
+Mohawk College of Applied Arts and Technology
+Niagara College
+Northern College of Applied Arts and Technology
+St. Clair College of Applied Arts and Technology
+St. Lawrence College
+Sault College of Applied Arts and Technology
+Seneca College of Applied Arts and Technology
+Sheridan College Institute of Technology and Advanced Learning
+Aurora College
+Academy of Learning College
+Canadian Coast Guard College
+Gaelic College
+Kingston Bible College
+Nova Scotia Community College
+Nunavut Arctic College
+Holland College
+Maritime Christian College
+Bethany College
+Briercrest College and Seminary
+Carlton Trail Regional College
+Horizon College and Seminary
+College Mathieu
+Cumberland College
+Eston College
+Great Plains College
+Nipawin Bible College
+Northlands College
+North West Regional College
+Parkland College
+Saskatchewan Indian Institute of Technologies
+Saskatchewan Institute of Applied Sciences and Technology
+Southeast Regional College
+St Peter’s College
+Western Academy Broadcasting College
+University of Glasgow
+Monash University
+Yukon College

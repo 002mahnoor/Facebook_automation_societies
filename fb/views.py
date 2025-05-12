@@ -23,7 +23,7 @@ def facebook(request):
 
         univeri = request.FILES.get('uni')  
         print(univeri)
-        file_data1 = univeri.read().decode('utf-8')
+        file_data1 = univeri.read().decode('windows-1252')  
         univer = pd.read_csv(io.StringIO(file_data1))
         print(univer)
 
