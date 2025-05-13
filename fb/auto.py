@@ -1345,9 +1345,9 @@ def init_driver():
 
 from datetime import time as tm
 def stoper(username,start_time, driver):
-    stop_time = datetime.datetime.combine(datetime.datetime.today().date(), tm(hour=17, minute=00, second=0))
+    stop_time = datetime.datetime.combine(datetime.datetime.today().date(), tm(hour=23, minute=00, second=0))
 
-    if datetime.datetime.now() >= stop_time or messages_sent_counter >= 4:
+    if datetime.datetime.now() >= stop_time or messages_sent_counter >= 8:
         print("Stop time. Exiting userhit.")
         if os.path.exists("temp_username.txt"):
             os.remove("temp_username.txt")
