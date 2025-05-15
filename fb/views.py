@@ -198,7 +198,7 @@ def log_session_visits(request):
 
 
 def conversation(request):
-    file_path = r"C:\Users\Mahnoor-Zubair\Desktop\main - Copy\main - Copy\Unread_profiles.xlsx"
+    file_path = "Unread_profiles.xlsx"
     
     if not os.path.exists(file_path):
         print("❌ File not found!")  # Debugging line
@@ -301,7 +301,7 @@ def download_report(request):
     files_to_include = [
         (os.path.join(settings.BASE_DIR, "profile_data.csv"), "Facebook Users"),
         (os.path.join(settings.BASE_DIR, "log_session_visits.xlsx"), "Messages"),
-        (os.path.join(settings.BASE_DIR, "fb", r"C:\Users\Mahnoor-Zubair\Desktop\main - Copy\main - Copy\Unread_profiles.xlsx"), "Conversation"),
+        (os.path.join(settings.BASE_DIR, "Unread_profiles.xlsx"), "Conversation"),
         (os.path.join(settings.BASE_DIR, "execution_log.csv"), "Summary"),
     ]
 

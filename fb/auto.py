@@ -304,7 +304,7 @@ def open_website(driver):
     # Wait a bit before closing (to simulate user behavior)
     time.sleep(random.randint(3, 5))
 
-def append_to_excel(profiles, messages, url, file_path=r"C:\Users\Mahnoor-Zubair\Desktop\main - Copy\main - Copy\Unread_profiles.xlsx"):
+def append_to_excel(profiles, messages, url, file_path="Unread_profiles.xlsx"):
     df = pd.DataFrame({
         "Unread_Profile_Names": profiles,
         "Unread_Profile_Messages": messages,
@@ -328,10 +328,17 @@ def append_to_excel(profiles, messages, url, file_path=r"C:\Users\Mahnoor-Zubair
 
 def unread_profiles(driver):
     try:
-        element = driver.find_element(By.CSS_SELECTOR, "div.x9f619.x1ja2u2z")
-        if element and "Unread Chats" in element.text.strip():
-            print("Correct Element found!")
-            match = re.search(r"(\d+) Unread Chats?", element.text.strip())
+        # element = driver.find_element(By.CSS_SELECTOR, "div.x9f619.x1ja2u2z")
+        element = driver.find_element(
+            By.XPATH,
+            "//div[starts-with(@aria-label, 'Messenger, ') and contains(@aria-label, ' unread')]"
+        )
+
+        # Use aria-label for accurate message count extraction
+        aria_label = element.get_attribute("aria-label")
+
+        if aria_label:
+            match = re.search(r"Messenger, (\d+)\s+unread", aria_label)
             if not match:
                 print("No unread chats found.")
                 return
@@ -358,9 +365,12 @@ def unread_profiles(driver):
                 lines = text.split("\n")
                 if len(lines) < 3:
                     continue
-
-                profile_name = lines[0].strip()
-                profile_message = lines[1].strip()
+                if lines[0].strip() == "Active now":
+                    profile_name = lines[1].strip()
+                    profile_message = lines[2].strip()
+                else:
+                    profile_name = lines[0].strip()
+                    profile_message = lines[1].strip()
                 print(f"Profile name: {profile_name}")
                 print(f"Profile message: {profile_message}")
                 unread_profiles_list.append(profile_name)
@@ -601,86 +611,101 @@ def check_friends(driver,university_name, univer,username, page_name):
             # Print all collected unique links
             print(len(all_links))
             print("All collected unique links:")
+            
+            visited_profiles = load_visited_profiles()
+        
+            unique_people_links = all_links - visited_profiles  # Compare only base URLs
+
+            if unique_people_links:
+                for profile_base_url in unique_people_links:
+                    # if '/posts/' or '/stories/' or'/pages/' not in profile_base_url:
+                    if all(x not in profile_base_url for x in ['/pages/', '/posts/', '/stories/']):
+
+                        visited_profiles.add(profile_base_url)  # Store only base URLs
+
+
             for link in all_links:
                 print(link)
-            for link in all_links:
-                print("Visiting the link ", link)
-                driver.execute_script("window.open(arguments[0], '_blank');", link)
-                time.sleep(10)
-                driver.close()
-                driver.switch_to.window(driver.window_handles[1])  # Switch to Tab 1
-                time.sleep(3)
-                about_section = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.LINK_TEXT, "About"))
-                )
-                pyautogui.moveTo(400, 50, duration=0.5)
-                move_cursor_to_element(about_section)
-                print("Cursor moved to the element (pyautogui)")
-                
-                about_section.click()
-                target_university = university_name.lower()  # We will match anything containing "Abertay"
-                print(f"The target university is : {target_university}")
-
-                time.sleep(random.randint(4,7))
-                try:
-                    wait = WebDriverWait(driver, 10)
-                    print("Compairing the text of the uniersities if the person in university or not")
-                    text_ = wait.until(EC.presence_of_element_located(
-                    (By.XPATH, "//div[contains(@class, 'x13faqbe')]//span[contains(text(), 'Studies')]")
-                    ))#or contains(text(), 'Studied')
-                    move_cursor_to_element(text_)
+            if unique_people_links:
+                for link in unique_people_links:
+                    print("Visiting the link ", link)
+                    driver.execute_script("window.open(arguments[0], '_blank');", link)
+                    time.sleep(10)
+                    driver.close()
+                    driver.switch_to.window(driver.window_handles[1])  # Switch to Tab 1
+                    time.sleep(3)
+                    about_section = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.LINK_TEXT, "About"))
+                    )
+                    pyautogui.moveTo(400, 50, duration=0.5)
+                    move_cursor_to_element(about_section)
                     print("Cursor moved to the element (pyautogui)")
                     
-                    print("✅ Got the text, now comparing with target universities")
+                    about_section.click()
+                    target_university = university_name.lower()  # We will match anything containing "Abertay"
+                    print(f"The target university is : {target_university}")
 
-                    plain_text = text_.text.lower()
-                    print(f"📌 Extracted text: {plain_text}")
-                    university_part = plain_text.split("at", 1)[-1].strip()
-                    print(f"🔍 Text after 'at': {university_part}")
+                    time.sleep(random.randint(4,7))
+                    try:
+                        wait = WebDriverWait(driver, 10)
+                        print("Compairing the text of the uniersities if the person in university or not")
+                        text_ = wait.until(EC.presence_of_element_located(
+                        (By.XPATH, "//div[contains(@class, 'x13faqbe')]//span[contains(text(), 'Studies')]")
+                        ))#or contains(text(), 'Studied')
+                        move_cursor_to_element(text_)
+                        print("Cursor moved to the element (pyautogui)")
+                        
+                        print("✅ Got the text, now comparing with target universities")
 
-                    ignore_words = {"university", "college", "at", "in", "of", "the", "studied", "studies", "study", "technology"}
-                    words_in_text = set(plain_text.split()) - ignore_words
-                    print(f"🔍 Filtered words from extracted text: {words_in_text}")
+                        plain_text = text_.text.lower()
+                        print(f"📌 Extracted text: {plain_text}")
+                        university_part = plain_text.split("at", 1)[-1].strip()
+                        print(f"🔍 Text after 'at': {university_part}")
 
-                    found_match = False
-                    print("going into for loop to match university information")
-                    for university_name in univer["university"]:
-                        print("In side the for loop")
-                        words_in_university = set(university_name.lower().split()) - ignore_words
-                        matching_words = words_in_text.intersection(words_in_university)
-                        print("Now going to check match found or not")
-                        if matching_words:
-                            print(f"✅ Match found: {university_name} 🎯")
+                        ignore_words = {"university", "college", "at", "in", "of", "the", "studied", "studies", "study", "technology"}
+                        words_in_text = set(plain_text.split()) - ignore_words
+                        print(f"🔍 Filtered words from extracted text: {words_in_text}")
 
-                            global profile_matched_counter
-                            profile_matched_counter += 1
-                            try:
-                        # profile_name_element = driver.find_element(By.XPATH, "//h1[contains(@class, 'html-h1 xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x1vvkbs x1heor9g x1qlqyl8 x1pd3egz x1a2a7pz')]")
-                                profile_name_element = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located(
-                                    (By.XPATH, "//div[contains(@class, 'x1e56ztr') or contains(@class, 'x1xmf6yo')]//h1")
+                        found_match = False
+                        print("going into for loop to match university information")
+                        for university_name in univer["university"]:
+                            print("In side the for loop")
+                            words_in_university = set(university_name.lower().split()) - ignore_words
+                            matching_words = words_in_text.intersection(words_in_university)
+                            print("Now going to check match found or not")
+                            if matching_words:
+                                print(f"✅ Match found: {university_name} 🎯")
+
+                                global profile_matched_counter
+                                profile_matched_counter += 1
+                                try:
+                                # profile_name_element = driver.find_element(By.XPATH, "//h1[contains(@class, 'html-h1 xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x1vvkbs x1heor9g x1qlqyl8 x1pd3egz x1a2a7pz')]")
+                                    profile_name_element = WebDriverWait(driver, 10).until(
+                                    EC.presence_of_element_located(
+                                        (By.XPATH, "//div[contains(@class, 'x1e56ztr') or contains(@class, 'x1xmf6yo')]//h1")
+                                    )
                                 )
-                            )
-                                name = profile_name_element.text
-                            except:
-                                print("Couldnt find the element")
-                            find_time = datetime.datetime.now()
-                            status = "pending"
-                            log_session_visits(link, name, status, find_time)  # Save to Excel
-                            global pending_messages_counter
-                            pending_messages_counter += 1
-                            save_visited_profile(link, name, status, find_time)  # Save to Excel
-                            save_profile_data(link ,name, username, page_name)
+                                    name = profile_name_element.text
+                                except:
+                                    print("Couldnt find the element")
+                                find_time = datetime.datetime.now()
+                                status = "pending"
+                                log_session_visits(link, name, status, find_time)  # Save to Excel
+                                global pending_messages_counter
+                                pending_messages_counter += 1
+                                save_visited_profile(link, name, status, find_time)  # Save to Excel
 
-
-                            found_match = True
-                            break  # Stop checking further universities
-                    if not found_match:
-                        print(f"⚠ The overview does not show the person is from a target university.")
-
-                except TimeoutException:
-                    print("⚠ No university info found in profile. Skipping this person.")
-
+                            
+                                found_match = True
+                                break  # Stop checking further universities
+                         
+                        if not found_match:
+                            print(f"⚠ The overview does not show the person is from a target university.")
+                            save_visited_profile(link, name, "not sent", find_time)  # Save to Excel
+                    
+                    except TimeoutException:
+                        print("⚠ No university info found in profile. Skipping this person.")
+                    save_profile_data(link ,name, username, page_name)
 
     except:
         print("Frinds not found")
@@ -794,6 +819,16 @@ def send_message(driver, message):
             blocked_element = driver.find_element(By.XPATH, "//div[contains(text(), \"This account can't receive your message\")]")
             print('This id has blocked incoming mesages from a stranger')
             wrote_message = False
+            try:
+                # Locate the element using its class name (or another method if needed)
+                minimise_chat_button = driver.find_element(By.CSS_SELECTOR, 'div[aria-label="Minimise chat"]')
+
+                # Perform actions, e.g., clicking the button to minimize chat
+                minimise_chat_button.click()
+                time.sleep(5)
+            except:
+                print("Minimize chat button not found or not clickable.")
+                time.sleep(5)
             return wrote_message
         except:
             print("Id not blocked the incoming messages from stranger")
@@ -803,7 +838,7 @@ def send_message(driver, message):
         )
         move_cursor_to_element(message_input)
         print("Cursor moved to the element (pyautogui)")
-       
+        time.sleep(4)
         print("Found message input box, typing message...")
         human_like_typing(message_input, message)
         time.sleep(random.uniform(0.5, 1.5))  # Small delay before hitting Enter
@@ -820,6 +855,14 @@ def send_message(driver, message):
             wrote_message = False
     except Exception as e:
         print(f"Error typing message: {e}")
+    try:
+            # Locate the element using its class name (or another method if needed)
+            minimise_chat_button = driver.find_element(By.CSS_SELECTOR, 'div[aria-label="Minimise chat"]')
+
+            # Perform actions, e.g., clicking the button to minimize chat
+            minimise_chat_button.click()
+    except:
+        print("Minimize chat button not found or not clickable.")
     return wrote_message
 
 def close_liker_dialog(driver):
@@ -841,7 +884,7 @@ def close_liker_dialog(driver):
         print("Dialog closed using Escape key.")
 
 
-EXCEL_FILE = r"C:\Users\Mahnoor-zubair\Desktop\main - Copy\main - Copy\visited_profiles.xlsx"
+EXCEL_FILE = "visited_profiles.xlsx"
 
 from urllib.parse import urlparse, parse_qs, urlencode
 
@@ -985,6 +1028,8 @@ def save_visited_profile(profile_url, name, status, find_time):
 
 
 def profiles_reacted(driver, university_name,univer,username, start_time,page_name):
+    print("I am in the profiles reacted function")
+    main_window = driver.current_window_handle
     status = None
     try:
     #     profile_elements = driver.find_element(By.XPATH,
@@ -1054,7 +1099,8 @@ def profiles_reacted(driver, university_name,univer,username, start_time,page_na
                     # save_visited_profile(profile_base_url, name, status)  # Save to Excel
                     print(f"✅ Visiting profile: {profile_base_url}")
 
-                    main_window = driver.current_window_handle
+                    # main_window = driver.current_window_handle
+
                     # Open a new tab
                     driver.execute_script("window.open(arguments[0], '_blank');", profile_base_url)
                     global profiles_visited_counter
@@ -1176,6 +1222,10 @@ def profiles_reacted(driver, university_name,univer,username, start_time,page_na
                     time.sleep(3)  # Allow about page to load
                     stoper(username,start_time, driver)
                     # Once done, close the new tab
+                    # if the profile has beeen matched then check the friends of the profile
+                    if status == "sent" or status == "already send" or status == "pending":
+                        print("I am going to check the friends of the profile")
+                        # check_friends(driver,university_name, univer,username, page_name)
                     # check_friends(driver,university_name, univer,username, page_name)
                     driver.close()
 
@@ -1491,6 +1541,7 @@ def main_handler(username, password, univer, index, requester):
                             if ("society" in page_name or 
                                 "club" in page_name or 
                                 "community" in page_name or 
+                                "union" in page_name or
                                 "communities" in page_name):
                                 
                                 if page_link not in visited_links:
@@ -1509,7 +1560,9 @@ def main_handler(username, password, univer, index, requester):
                                 time.sleep(random.randint(2,5))  # Allow time for the page to load
                                 
 
-                                # send_pending_message(driver)
+                                send_pending_message(driver)
+                                unread_profiles(driver)
+                                time.sleep(random.randint(2,5))  # Allow time for the page to load  
 
                                 try:
                                         click_all_like_buttons(driver, university_name,visited_profiles,univer,username,start_time, link)
