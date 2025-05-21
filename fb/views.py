@@ -140,7 +140,7 @@ def fb_user_searched(request):
     try:
         # Try reading with UTF-8 first
         try:
-            df = pd.read_csv(file_path, encoding='utf-8')
+            df = pd.read_csv(file_path, encoding='utf-8-sig')
         except UnicodeDecodeError as e:
             print(f"⚠️ UTF-8 decode error: {e}, trying fallback encoding...")
             df = pd.read_csv(file_path, encoding='ISO-8859-1')  # Fallback to Latin-1
